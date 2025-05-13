@@ -10,7 +10,7 @@ type State = {
 };
 
 export class Clock extends React.Component<Props, State> {
-  timerId = 0;
+  timerId: number | null = null;
 
   state: State = {
     time: new Date(),
@@ -37,7 +37,9 @@ export class Clock extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    window.clearInterval(this.timerId);
+    if (this.timerId !== null) {
+      window.clearInterval(this.timerId);
+    }
   }
 
   render() {
@@ -47,9 +49,7 @@ export class Clock extends React.Component<Props, State> {
     return (
       <div className="Clock">
         <strong className="Clock__name">{clockName}</strong>
-
         {' time is '}
-
         <span className="Clock__time">{time.toUTCString().slice(-12, -4)}</span>
       </div>
     );
